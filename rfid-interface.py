@@ -9,7 +9,7 @@ import RPi.GPIO as GPIO
 import requests
 import time
 
-url = 'localhost:1337/post'
+url = "http://localhost:1337/post"
 reader = SimpleMFRC522()
 
 def main():

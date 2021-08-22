@@ -7,12 +7,16 @@
 from mfrc522 import SimpleMFRC522
 import RPi.GPIO as GPIO
 
-reader = SimpleMFRC522()
+def main():
+  reader = SimpleMFRC522()
 
-try:
+  try:
     data = input("New data:")
     print("Scan tag to write")
     reader.write(data)
     print("Done")
-finally:
+  finally:
     GPIO.cleanup()
+
+if __name__ == '__main__':
+  main()
