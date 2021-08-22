@@ -2,10 +2,7 @@
   "name": "rfid-controlled-server",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
+  "main": "src/server/app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/team-vicito/rfid-controlled-server.git"
