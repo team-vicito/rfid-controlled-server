@@ -4,9 +4,23 @@
 # Depends on: bash, gcc, pip3
 # By David Penkowoj, 2021/08/22
 
-npm i &&
-pip3 install spidev RPi.GPIO mfrc522 &&
-gcc ./src/host/main.c -pthread -o rfidcws &&
-echo "export PATH=$PATH:$(pwd)/rfidcws" >> "$HOME/.profile" &&
-echo -e "\nSuccessfully installed RFIDCWS.\n" ||
+_enableSPI() {
+    if ! grep "dtparam=spi=on" /boot/config.txt; then
+        echo "dtparam=spi=on" >> "/boot/config.txt"
+    fi
+}
+
+_prepareRequirements() {
+    npm i &&
+    _enableSPI && 
+    pip3 install spidev RPi.GPIO mfrc522
+}
+
+_compile() {
+    _prepareRequirements &&
+    gcc ./src/host/main.c -pthread -o rfidcws
+}
+
+_compile &&
+echo -e "\nSuccessfully compiled RFIDCWS.\n" ||
 echo -e "\nInstallation failed\n"
