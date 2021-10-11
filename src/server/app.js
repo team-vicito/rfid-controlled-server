@@ -34,5 +34,5 @@ socket.on("connection", (connection) => {
 });
 
 server.listen(port, () => {
-  console.log(`Success! Your application is running on port ${port}.`);
+  console.log(`The web server is listening on port ${port}.`);
 });

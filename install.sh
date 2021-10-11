@@ -6,7 +6,7 @@
 
 npm i &&
 pip3 install spidev RPi.GPIO mfrc522 &&
-gcc ./src/host/main.c -pthread -o rfid-controlled-server &&
-echo "export PATH=$PATH:$(pwd)/rfid-controlled-server" >> "$HOME/.profile" &&
-echo -e "\nSuccessfully installed rfid-controlled-server\n" ||
+gcc ./src/host/main.c -pthread -o rfidcws &&
+echo "export PATH=$PATH:$(pwd)/rfidcws" >> "$HOME/.profile" &&
+echo -e "\nSuccessfully installed RFIDCWS.\n" ||
 echo -e "\nInstallation failed\n"

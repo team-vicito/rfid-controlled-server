@@ -1,18 +1,18 @@
 {
-  "name": "rfid-controlled-server",
+  "name": "rfidcws",
   "version": "1.0.0",
   "description": "",
   "main": "src/server/app.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/team-vicito/rfid-controlled-server.git"
+    "url": "git+https://github.com/team-vicito/rfidcws.git"
   },
   "author": "David Penkowoj",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/team-vicito/rfid-controlled-server/issues"
+    "url": "https://github.com/team-vicito/rfidcws/issues"
   },
-  "homepage": "https://github.com/team-vicito/rfid-controlled-server#readme",
+  "homepage": "https://github.com/team-vicito/rfidcws#readme",
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^4.1.3"

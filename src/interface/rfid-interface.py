@@ -21,6 +21,8 @@ def main():
       if id is not None:
         map = {"id": id, "data": data}
         requests.post(url, data = map)
+    except:
+      print("Failed to read ID")
     finally:
       GPIO.cleanup()
 
