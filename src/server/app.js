@@ -20,8 +20,8 @@ app.get("/", (_, res) => {
 });
 
 app.post("/post", (req, res) => {
+  console.log("Data recieved");
   emitPostData(req.body.data);
-
   res.sendStatus(200);
 });
 
@@ -34,5 +34,5 @@ socket.on("connection", (connection) => {
 });
 
 server.listen(port, () => {
-  console.log(`The web server is listening on port ${port}.`);
+  console.log(`Web server active. Listening on port ${port}.`);
 });

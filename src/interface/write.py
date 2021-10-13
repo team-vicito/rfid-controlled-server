@@ -11,12 +11,12 @@ def main():
   reader = SimpleMFRC522()
 
   try:
-    data = input("Please enter the new ID key:\n")
+    data = input("Please enter the new ID data:\n")
     print("Please scan the ID to write")
     reader.write(data)
-    print("Key '" + data + "' successfully written")
+    print("Data '" + data + "' successfully written to ID.")
   except:
-    print("Failed to write to ID")
+    print("Failed to write to ID.")
   finally:
     GPIO.cleanup()
 

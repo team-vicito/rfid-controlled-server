@@ -8,23 +8,32 @@ from mfrc522 import SimpleMFRC522
 import RPi.GPIO as GPIO
 import requests
 import time
+import sys
 
 url = "http://localhost:1337/post"
 reader = SimpleMFRC522()
 
 def main():
-  while True:
-    try:
-      time.sleep(0.5)
-      id, data = reader.read()
+  try: 
+    print("Interface active. Waiting for RFID.")
 
-      if id is not None:
+    while True:
+      try:
+        id, data = reader.read()
+
+        if id is None:
+          continue
+
         map = {"id": id, "data": data}
         requests.post(url, data = map)
-    except:
-      print("Failed to read ID")
-    finally:
-      GPIO.cleanup()
+      except:
+        print("Failed to read ID.")
+      finally:
+        time.sleep(0.5)
+  except KeyboardInterrupt:
+    GPIO.cleanup()
+    sys.exit(0)
+
 
 if __name__ == '__main__':
   main()
