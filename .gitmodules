@@ -1,0 +1,3 @@
+[submodule "src/server/public/interactive-model-viewer"]
+	path = src/server/public/interactive-model-viewer
+	url = https://github.com/team-vicito/interactive-model-viewer
