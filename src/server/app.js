@@ -8,15 +8,18 @@ const socket = new socketio.Server(server);
 const port = 1337;
 
 let conn;
+const path = `${__dirname}/public/interactive-model-viewer`;
 
 const emitPostData = (data) => {
   if (conn) conn.emit("rfid", data);
 }
 
 app.use(express.urlencoded({extended: true}));
+app.use("/", express.static(`${path}/public/`));
+app.use("/dist", express.static(`${path}/dist/`));
 
 app.get("/", (_, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(`${path}/index.html`);
 });
 
 app.post("/post", (req, res) => {
