@@ -1,39 +1,57 @@
 #!/usr/bin/env python3
 
 # A simplified system for using RFID technology in combination with a webserver.
-# Depends on: python3, SimpleMFRC522, RPi
+# Depends on: python3, PN532_I2C
 # By David Penkowoj, 2021/06/08
 
-from mfrc522 import SimpleMFRC522
-import RPi.GPIO as GPIO
 import requests
-import time
+import board
+import busio
 import sys
 
-url = "http://localhost:1337/post"
-reader = SimpleMFRC522()
+from digitalio import DigitalInOut
+from adafruit_pn532.i2c import PN532_I2C
 
-def main():
+url = "http://localhost:1337/post"
+
+def main(reader):
   try: 
     print("Interface active. Waiting for RFID.")
 
     while True:
-      try:
-        id, data = reader.read()
+      uid = reader.read_passive_target(timeout=0.5)
 
-        if id is None:
-          continue
+      if uid is None:
+        continue
 
-        map = {"id": id, "data": data}
-        requests.post(url, data = map)
-      except:
-        print("Failed to read ID.")
-      finally:
-        time.sleep(0.5)
+      print("Found card with UID:", concat(uid))
+
+      map = {"id": id}
+      requests.post(url, data = map)
   except KeyboardInterrupt:
-    GPIO.cleanup()
     sys.exit(0)
 
+def setup():
+  i2c = busio.I2C(board.SCL, board.SDA)
+
+  req_pin = DigitalInOut(board.D12)
+  reset_pin = DigitalInOut(board.D6)
+  pn532 = PN532_I2C(i2c, debug=False, reset=reset_pin, req=req_pin)
+  
+  ic, ver, rev, support = pn532.firmware_version
+  print("Found PN532 with firmware version: {0}.{1}".format(ver, rev))
+  
+  pn532.SAM_configuration()
+
+  return pn532
+
+def concat(uid):
+  string = ""
+  for u in uid:
+    string = string + str(u)
+
+  return string
 
 if __name__ == '__main__':
-  main()
+  reader = setup()
+  main(reader)
