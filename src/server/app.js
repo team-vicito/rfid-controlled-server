@@ -3,9 +3,9 @@ const express = require("express");
 const http = require("http");
 const app = express();
 
+const port = 1337;
 const server = http.createServer(app);
 const socket = new socketio.Server(server);
-const port = 1337;
 
 let conn;
 const path = `${__dirname}/public/interactive-model-viewer`;
@@ -24,7 +24,7 @@ app.get("/", (_, res) => {
 
 app.post("/post", (req, res) => {
   console.log("Data recieved");
-  emitPostData(req.body.data);
+  emitPostData(req.body.id);
   res.sendStatus(200);
 });
 

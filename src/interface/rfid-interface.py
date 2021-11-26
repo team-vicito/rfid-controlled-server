@@ -7,6 +7,7 @@
 import requests
 import board
 import busio
+import time
 import sys
 
 from digitalio import DigitalInOut
@@ -24,10 +25,11 @@ def main(reader):
       if uid is None:
         continue
 
-      print("Found card with UID:", concat(uid))
+      id = concat(uid)
+      print("Found card with UID:", id)
+      requests.post(url, data = { "id": id })
 
-      map = {"id": id}
-      requests.post(url, data = map)
+      time.sleep(1)
   except KeyboardInterrupt:
     sys.exit(0)
 
