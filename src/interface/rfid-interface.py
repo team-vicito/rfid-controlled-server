@@ -5,15 +5,11 @@
 # By David Penkowoj, 2021/06/08
 
 import requests
-import board
-import busio
 import time
 import sys
 
-from digitalio import DigitalInOut
-from adafruit_pn532.i2c import PN532_I2C
-
-url = "http://localhost:1337/post"
+import light
+import read
 
 def main(reader):
   try: 
@@ -25,35 +21,18 @@ def main(reader):
       if uid is None:
         continue
 
-      id = concat(uid)
-      print("Found card with UID:", id)
-      requests.post(url, data = { "id": id })
+      success(uid)
 
       time.sleep(1)
   except KeyboardInterrupt:
     sys.exit(0)
 
-def setup():
-  i2c = busio.I2C(board.SCL, board.SDA)
+def success(uid):
+  light.light()
+  id = read.concat(uid)
+  print("Found card with UID:", id)
+  requests.post("http://localhost:1337/post", data = { "id": id })
 
-  req_pin = DigitalInOut(board.D12)
-  reset_pin = DigitalInOut(board.D6)
-  pn532 = PN532_I2C(i2c, debug=False, reset=reset_pin, req=req_pin)
-  
-  ic, ver, rev, support = pn532.firmware_version
-  print("Found PN532 with firmware version: {0}.{1}".format(ver, rev))
-  
-  pn532.SAM_configuration()
-
-  return pn532
-
-def concat(uid):
-  string = ""
-  for u in uid:
-    string = string + str(u)
-
-  return string
-
-if __name__ == '__main__':
-  reader = setup()
+if __name__ == "__main__":
+  reader = read.setup()
   main(reader)
